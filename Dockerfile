@@ -50,4 +50,5 @@ COPY httpd.conf .
 # COPY . .
 
 # Run busybox httpd
-CMD ["/busybox-httpd", "-f", "-v", "-p", "3000"]
+ENV PORT=3000 SITE=/home/static
+CMD ["/busybox-httpd", "-f", "-v", "-p", "$PORT", "-h", "$SITE"]
