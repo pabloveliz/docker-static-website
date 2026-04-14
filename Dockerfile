@@ -33,6 +33,7 @@ COPY --from=builder /etc/passwd /etc/passwd
 
 # Copy the static binary
 COPY --from=builder /busybox/busybox_HTTPD /busybox-httpd
+COPY --from=builder /busybox/busybox_SH_IS_ASH /sh
 
 # Use our non-root user
 USER static
@@ -51,4 +52,6 @@ COPY httpd.conf .
 
 # Run busybox httpd
 ENV PORT=3000 SITE=/home/static
-CMD ["/busybox-httpd", "-f", "-v", "-p", "$PORT", "-h", "$SITE"]
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+CMD ["/entrypoint.sh"]
